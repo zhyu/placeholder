@@ -32,7 +32,7 @@ func (p *Placeholder) Generate() {
 		p.format = "png"
 	}
 	if p.text == "" {
-		p.text = fmt.Sprintf("%dx%d", p.width, p.height)
+		p.text = fmt.Sprintf("%d x %d", p.width, p.height)
 	}
 	if p.filename == "" {
 		p.filename = p.text + "." + p.format
