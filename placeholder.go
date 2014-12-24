@@ -23,10 +23,10 @@ func (p *Placeholder) Generate() {
 		p.height = 512
 	}
 	if p.bgColor == "" {
-		p.bgColor = "#cccccc"
+		p.bgColor = "#cbcbcb"
 	}
 	if p.fontColor == "" {
-		p.fontColor = "#3a7ba8"
+		p.fontColor = "#999999"
 	}
 	if p.format == "" {
 		p.format = "png"
