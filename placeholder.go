@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/codegangsta/cli"
 	"github.com/gographics/imagick/imagick"
+	"os"
 )
 
 type Placeholder struct {
@@ -16,12 +18,6 @@ type Placeholder struct {
 }
 
 func (p *Placeholder) Generate() {
-	if p.width == 0 {
-		p.width = 512
-	}
-	if p.height == 0 {
-		p.height = 512
-	}
 	if p.bgColor == "" {
 		p.bgColor = "#cbcbcb"
 	}
@@ -65,6 +61,31 @@ func (p *Placeholder) Generate() {
 }
 
 func main() {
-	p := new(Placeholder)
-	p.Generate()
+	app := cli.NewApp()
+	app.Name = "placeholder"
+	app.Usage = "generate placeholder images"
+	app.Version = "0.0.1"
+	app.Flags = []cli.Flag{
+		cli.IntFlag{
+			Name:  "width",
+			Value: 512,
+			Usage: "Width of placeholder",
+		},
+		cli.IntFlag{
+			Name:  "height",
+			Value: 512,
+			Usage: "Height of placeholder",
+		},
+	}
+	app.Action = func(c *cli.Context) {
+		p := new(Placeholder)
+		if width := c.Int("width"); width > 0 {
+			p.width = uint(width)
+		}
+		if height := c.Int("height"); height > 0 {
+			p.height = uint(height)
+		}
+		p.Generate()
+	}
+	app.Run(os.Args)
 }
