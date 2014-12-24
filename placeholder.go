@@ -56,7 +56,7 @@ func (p *Placeholder) Generate() {
 	pw.SetColor(p.fontColor)
 	dw.SetFillColor(pw)
 	dw.SetFont("/Library/Fonts/Georgia.ttf")
-	dw.SetFontSize(24)
+	dw.SetFontSize(80)
 	dw.SetGravity(imagick.GRAVITY_CENTER)
 
 	mw.AnnotateImage(dw, 0, 0, 0, p.text)
