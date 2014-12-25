@@ -65,7 +65,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "placeholder"
 	app.Usage = "generate placeholder images"
-	app.Version = "0.0.1"
+	app.Version = "0.0.2"
 	app.Flags = []cli.Flag{
 		cli.IntFlag{
 			Name:  "width",
@@ -77,6 +77,21 @@ func main() {
 			Value: 512,
 			Usage: "Height of placeholder",
 		},
+		cli.StringFlag{
+			Name:  "background",
+			Value: "#cbcbcb",
+			Usage: "Background color in hex (#RRGGBB) format",
+		},
+		cli.StringFlag{
+			Name:  "foreground",
+			Value: "#999999",
+			Usage: "Foreground color in hex (#RRGGBB) format",
+		},
+		cli.StringFlag{
+			Name:  "format",
+			Value: "png",
+			Usage: "File format of placeholder",
+		},
 	}
 	app.Action = func(c *cli.Context) {
 		p := NewPlaceholder()
@@ -85,6 +100,15 @@ func main() {
 		}
 		if height := c.Int("height"); height > 0 {
 			p.height = uint(height)
+		}
+		if bgColor := c.String("background"); bgColor != "" {
+			p.bgColor = bgColor
+		}
+		if fontColor := c.String("foreground"); fontColor != "" {
+			p.fontColor = fontColor
+		}
+		if format := c.String("format"); format != "" {
+			p.format = format
 		}
 		p.Generate()
 	}
