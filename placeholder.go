@@ -17,16 +17,17 @@ type Placeholder struct {
 	filename  string
 }
 
+func NewPlaceholder() *Placeholder {
+	return &Placeholder{
+		width:     512,
+		height:    512,
+		bgColor:   "#cbcbcb",
+		fontColor: "#999999",
+		format:    "png",
+	}
+}
+
 func (p *Placeholder) Generate() {
-	if p.bgColor == "" {
-		p.bgColor = "#cbcbcb"
-	}
-	if p.fontColor == "" {
-		p.fontColor = "#999999"
-	}
-	if p.format == "" {
-		p.format = "png"
-	}
 	if p.text == "" {
 		p.text = fmt.Sprintf("%d x %d", p.width, p.height)
 	}
@@ -78,7 +79,7 @@ func main() {
 		},
 	}
 	app.Action = func(c *cli.Context) {
-		p := new(Placeholder)
+		p := NewPlaceholder()
 		if width := c.Int("width"); width > 0 {
 			p.width = uint(width)
 		}
