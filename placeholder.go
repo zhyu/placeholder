@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/gographics/imagick/imagick"
 	"os"
@@ -24,17 +23,12 @@ func NewPlaceholder() *Placeholder {
 		bgColor:   "#cbcbcb",
 		fontColor: "#999999",
 		format:    "png",
+		text:      "TEXT",
+		filename:  "OUT.png",
 	}
 }
 
 func (p *Placeholder) Generate() {
-	if p.text == "" {
-		p.text = fmt.Sprintf("%d x %d", p.width, p.height)
-	}
-	if p.filename == "" {
-		p.filename = p.text + "." + p.format
-	}
-
 	imagick.Initialize()
 	defer imagick.Terminate()
 
@@ -65,7 +59,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "placeholder"
 	app.Usage = "generate placeholder images"
-	app.Version = "0.0.2"
+	app.Version = "0.1.0"
 	app.Flags = []cli.Flag{
 		cli.IntFlag{
 			Name:  "width",
@@ -92,6 +86,16 @@ func main() {
 			Value: "png",
 			Usage: "File format of placeholder",
 		},
+		cli.StringFlag{
+			Name:  "text, t",
+			Value: "TEXT",
+			Usage: "Text of placeholder",
+		},
+		cli.StringFlag{
+			Name:  "output, o",
+			Value: "OUT",
+			Usage: "Output file",
+		},
 	}
 	app.Action = func(c *cli.Context) {
 		p := NewPlaceholder()
@@ -109,6 +113,12 @@ func main() {
 		}
 		if format := c.String("format"); format != "" {
 			p.format = format
+		}
+		if text := c.String("text"); text != "" {
+			p.text = text
+		}
+		if output := c.String("output"); output != "" {
+			p.filename = output + "." + p.format
 		}
 		p.Generate()
 	}
